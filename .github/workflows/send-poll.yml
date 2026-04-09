@@ -1,0 +1,20 @@
+name: Send Poll
+
+on:
+  schedule:
+    - cron: "0 4 * * 4" # 매주 목요일 1PM KST (UTC+9)
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  send-poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run send-poll
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}

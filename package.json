@@ -1,0 +1,23 @@
+{
+  "name": "boardgame-bot",
+  "version": "1.0.0",
+  "description": "Slack bot for weekly board game meetup voting and recommendations",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/app.ts",
+    "poll": "tsx src/cmd/poll.ts",
+    "result": "tsx src/cmd/result.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.0",
+    "@slack/bolt": "^4.1.0",
+    "dotenv": "^17.4.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

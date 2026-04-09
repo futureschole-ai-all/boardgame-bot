@@ -1,0 +1,21 @@
+name: Collect Votes
+
+on:
+  schedule:
+    - cron: "0 1 * * 4" # 매주 목요일 10AM KST (UTC+9)
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  collect-votes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run collect-votes
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
