@@ -20,8 +20,9 @@ const app = new App({
 // /game:list — 전체 목록
 app.command("/game:list", async ({ command, ack, respond }) => {
   await ack();
+  await sendMessage(app.client, `*<@${command.user_id}>* \`/game:list\` 실행`);
   const games = await fetchGames();
-  await respond({ text: formatAllGames(games), response_type: "in_channel" });
+  await sendMessage(app.client, formatAllGames(games));
 });
 
 // /game:suggest N명 — 인원수 기반 추천
@@ -32,10 +33,11 @@ app.command("/game:suggest", async ({ command, ack, respond }) => {
     await respond("*사용법:* `/game:suggest 4명`");
     return;
   }
+  await sendMessage(app.client, `*<@${command.user_id}>* \`/game:suggest ${command.text.trim()}\` 실행`);
   const count = parseInt(match[1], 10);
   const games = await fetchGames();
   const filtered = filterByPlayerCount(games, count);
-  await respond({ text: formatGameList(filtered, count), response_type: "in_channel" });
+  await sendMessage(app.client, formatGameList(filtered, count));
 });
 
 // /game:add 게임명 인원수 소요시간 — Notion에 게임 추가
@@ -54,6 +56,8 @@ app.command("/game:add", async ({ command, ack, respond }) => {
     return;
   }
 
+  await sendMessage(app.client, `*<@${command.user_id}>* \`/game:add ${command.text.trim()}\` 실행`);
+
   const players = playersMatch[0];
   const durationRaw = parts[2] ?? "";
   const duration = durationRaw.match(/\d+/) ? parseInt(durationRaw) : null;
@@ -63,17 +67,15 @@ app.command("/game:add", async ({ command, ack, respond }) => {
   try {
     const existing = await fetchGames();
     if (existing.some((g) => g.name.toLowerCase() === name.toLowerCase())) {
-      await respond(`⚠️ *${name}*은(는) 이미 등록되어 있습니다.`);
+      await sendMessage(app.client, `⚠️ *${name}*은(는) 이미 등록되어 있습니다.`);
       return;
     }
     await addGame(name, players, duration, url);
     const durationText = duration ? ` | ${duration}분` : "";
     const urlText = url ? ` | <${url}|링크>` : "";
-    await respond(`✅ 게임 등록 완료! (*${name}* | ${players}${durationText}${urlText})`);
+    await sendMessage(app.client, `✅ 게임 등록 완료! (*${name}* | ${players}${durationText}${urlText})`);
   } catch (e: any) {
-    await respond({ blocks: [
-      { type: "section", text: { type: "mrkdwn", text: `❌ 등록 실패: ${e.message}` } },
-    ] as any });
+    await sendMessage(app.client, `❌ 등록 실패: ${e.message}`);
   }
 });
 

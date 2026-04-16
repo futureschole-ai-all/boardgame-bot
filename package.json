@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/app.ts",
-    "poll": "tsx src/cmd/poll.ts",
-    "result": "tsx src/cmd/result.ts"
+    "send-poll": "tsx src/cmd/poll.ts",
+    "collect-votes": "tsx src/cmd/result.ts"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.0",
