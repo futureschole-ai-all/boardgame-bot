@@ -5,7 +5,7 @@ const channel = process.env.SLACK_CHANNEL!;
 export async function sendPollMessage(client: WebClient): Promise<string> {
   const result = await client.chat.postMessage({
     channel,
-    text: "🎲 이번 주 보드게임 모임 참석하시는 분은 ✅ 리액션 눌러주세요!",
+    text: "🎲 다음 주 목요일 보드게임 모임 참석하시는 분은 ✅ 리액션 눌러주세요!",
   });
   return result.ts!;
 }
