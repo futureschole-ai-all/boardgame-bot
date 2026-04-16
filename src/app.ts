@@ -79,8 +79,8 @@ app.command("/game:add", async ({ command, ack, respond }) => {
   }
 });
 
-// 매주 목요일 오후 1시 (KST) - 투표 메시지 전송
-cron.schedule("0 13 * * 4", async () => {
+// 매주 목요일 오후 1시 30분 (KST) - 투표 메시지 전송
+cron.schedule("30 13 * * 4", async () => {
   console.log("[cron] Sending poll...");
   const ts = await sendPollMessage(app.client);
   console.log(`[cron] Poll sent: ${ts}`);

@@ -2,7 +2,7 @@ name: Send Poll
 
 on:
   schedule:
-    - cron: "0 4 * * 4" # 매주 목요일 1PM KST (UTC+9)
+    - cron: "30 4 * * 4" # 매주 목요일 1:30PM KST (UTC+9)
   workflow_dispatch: # 수동 실행 가능
 
 jobs:
